@@ -11,10 +11,10 @@ namespace SortingVisualizer.ViewModels;
 public partial class SortingViewModel : ObservableObject
 {
     public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new BubbleSort()];
-    private readonly Random _random = new Random();
+    private readonly Random _random = new();
     
     [ObservableProperty] private List<SortingBar> _array;
-    [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm = null!;
+    [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm;
     [ObservableProperty] private bool _isSortAvailable = true;
     [ObservableProperty] private int _delay = 1;
     
@@ -54,7 +54,7 @@ public partial class SortingViewModel : ObservableObject
     private async Task StartSorting()
     {
         IsSortAvailable = false;
-        await SelectedAlgorithm.Sort(this);
+        await SelectedAlgorithm!.Sort(this);
         IsSortAvailable = true;
     }
 
