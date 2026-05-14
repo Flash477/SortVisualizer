@@ -16,21 +16,22 @@ public partial class SortingViewModel : ObservableObject
     [ObservableProperty] private List<SortingBar> _array;
     [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm;
     [ObservableProperty] private bool _isSortAvailable = true;
-    [ObservableProperty] private int _delay = 1;
+    [ObservableProperty] private int _delay = 10;
     
     public SortingViewModel()
     {
         SelectAlgorithm(SortAlgorithms[0]);
-        Array = GenerateRandomArray(20);
+        Array = GenerateArray(20);
+        ShakeArray();
     }
 
-    private List<SortingBar> GenerateRandomArray(int size)
+    private List<SortingBar> GenerateArray(int size)
     {
         List<SortingBar> newArray = new List<SortingBar>();
         
-        for (int i = 0; i < size; i++)
+        for (int i = 1; i <= size; i++)
         {
-            newArray.Add(new SortingBar(_random.Next(1, 300)));
+            newArray.Add(new SortingBar(i));
         }
 
         return newArray;
