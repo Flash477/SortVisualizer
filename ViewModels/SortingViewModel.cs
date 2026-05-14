@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SortingVisualizer.Models;
@@ -11,16 +10,18 @@ namespace SortingVisualizer.ViewModels;
 
 public partial class SortingViewModel : ObservableObject
 {
-    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort()];
+    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new BubbleSort()];
     private readonly Random _random = new Random();
     
     [ObservableProperty] private List<SortingBar> _array;
+    [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm = null!;
     [ObservableProperty] private bool _isSortAvailable = true;
     [ObservableProperty] private int _delay = 1;
     
     public SortingViewModel()
     {
-        Array = GenerateRandomArray(200);
+        SelectAlgorithm(SortAlgorithms[0]);
+        Array = GenerateRandomArray(20);
     }
 
     private List<SortingBar> GenerateRandomArray(int size)
@@ -50,10 +51,25 @@ public partial class SortingViewModel : ObservableObject
     }
 
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
-    private async Task StartSorting(SortAlgorithmBase sortAlgorithm)
+    private async Task StartSorting()
     {
         IsSortAvailable = false;
-        await sortAlgorithm.Sort(this);
+        await SelectedAlgorithm.Sort(this);
         IsSortAvailable = true;
+    }
+
+    [RelayCommand(CanExecute = nameof(IsSortAvailable))]
+    private void SelectAlgorithm(SortAlgorithmBase sortAlgorithm)
+    {
+        if (SelectedAlgorithm != sortAlgorithm)
+        {
+            if (SelectedAlgorithm != null)
+            {
+                SelectedAlgorithm.IsSelected = false;
+            }
+            
+            SelectedAlgorithm = sortAlgorithm;
+            SelectedAlgorithm.IsSelected = true;
+        }
     }
 }

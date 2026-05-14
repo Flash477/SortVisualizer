@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using SortingVisualizer.ViewModels;
 
 namespace SortingVisualizer.Models.Algorithms;
 
-public class BubbleSort : SortAlgorithmBase
+public partial class BubbleSort : SortAlgorithmBase
 {
     public override string Name => "Пузырьковая";
 

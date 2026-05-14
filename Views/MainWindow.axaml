@@ -15,6 +15,18 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
+    <Window.Styles>
+        <Style Selector="Button.algorithm-select">
+            <Setter Property="Background" Value="ForestGreen"></Setter>
+            <Style Selector="^:pointerover ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="ForestGreen"></Setter>
+            </Style>
+            <Style Selector="^:pressed ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="ForestGreen"></Setter>
+            </Style>
+        </Style>
+    </Window.Styles>
 
     <Grid RowDefinitions="*, 0.3*">
         <Grid ColumnDefinitions="0.8*, 0.2*" Grid.Row="0">
@@ -54,9 +66,9 @@
         <Grid ColumnDefinitions="Auto, Auto, *" Grid.Row="1">
             <StackPanel Grid.Column="0" Orientation="Vertical">
                 <UniformGrid Rows="2" Columns="3">
-                    <Button Content="Запуск"/>
+                    <Button Content="Запуск" Command="{Binding SortingViewModel.StartSortingCommand}"/>
                     <Button Content="Шаг"/>
-                    <Button Content="Перемешать" Command="{Binding SortingViewModel.ShakeArrayCommand}" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
+                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShakeArrayCommand}" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
                     <Button Content="Отсортировать"/>
                     <Button Content="В обратном"/>
                     <Button Content="Пирамида"/>
@@ -66,7 +78,7 @@
                 <ItemsControl ItemsSource="{Binding SortingViewModel.SortAlgorithms}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="algs:SortAlgorithmBase">
-                            <Button Content="{Binding Name}" Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.StartSortingCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}"/>
+                            <Button Content="{Binding Name}" Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.SelectAlgorithmCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Classes.algorithm-select="{Binding IsSelected}"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
