@@ -71,7 +71,7 @@
                 <UniformGrid Rows="2" Columns="3">
                     <Button Content="{Binding SortingViewModel.StartStopButtonText}" Command="{Binding SortingViewModel.StartStopSortingCommand}"/>
                     <Button Content="Шаг"/>
-                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShakeArrayCommand}"/>
+                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShuffleArrayCommand}"/>
                     <Button Content="В обратном" Command="{Binding SortingViewModel.SetReversedArrayCommand}"/>
                     <Button Content="Воронка" Command="{Binding SortingViewModel.SetCraterArrayCommand}"/>
                     <Button Content="Пирамида" Command="{Binding SortingViewModel.SetPyramidArrayCommand}"/>

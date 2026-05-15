@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SortingVisualizer.Models;
@@ -22,7 +21,7 @@ public partial class SortingViewModel : ObservableObject
     [ObservableProperty] private string _startStopButtonText = "Старт";
     
     [NotifyCanExecuteChangedFor(nameof(StartStopSortingCommand))]
-    [NotifyCanExecuteChangedFor(nameof(ShakeArrayCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ShuffleArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SetReversedArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SetCraterArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SetPyramidArrayCommand))]
@@ -31,9 +30,10 @@ public partial class SortingViewModel : ObservableObject
     
     public SortingViewModel()
     {
-        SelectAlgorithm(SortAlgorithms[0]);
         Array = GenerateSortedArray();
-        ShakeArray();
+        ShuffleArray();
+        
+        SelectAlgorithm(SortAlgorithms[0]);
     }
 
     partial void OnIsSortAvailableChanged(bool value)
@@ -44,7 +44,7 @@ public partial class SortingViewModel : ObservableObject
     partial void OnArraySizeChanged(int value)
     {
         Array = GenerateSortedArray();
-        ShakeArray();
+        ShuffleArray();
     }
 
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
@@ -138,17 +138,19 @@ public partial class SortingViewModel : ObservableObject
     }
     
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
-    private void ShakeArray()
+    private void ShuffleArray()
     {
-        ObservableCollection<SortingBar> shakedArray = new ObservableCollection<SortingBar>(Array);
+        ObservableCollection<SortingBar> shuffledArray = new ObservableCollection<SortingBar>(Array);
         
-        for (int i = 0; i < shakedArray.Count; i++)
+        for (int i = 0; i < shuffledArray.Count; i++)
         {
-            int j = _random.Next(shakedArray.Count);
-            (shakedArray[i].Value, shakedArray[j].Value) = (shakedArray[j].Value, shakedArray[i].Value);
+            int j = _random.Next(shuffledArray.Count);
+            (shuffledArray[i].Value, shuffledArray[j].Value) = (shuffledArray[j].Value, shuffledArray[i].Value);
+            
+            shuffledArray[i].Color = SortingBar.StandardColor;
         }
 
-        Array = shakedArray;
+        Array = shuffledArray;
     }
 
     [RelayCommand]
@@ -171,6 +173,11 @@ public partial class SortingViewModel : ObservableObject
             
             SelectedAlgorithm = sortAlgorithm;
             SelectedAlgorithm.IsSelected = true;
+
+            for (int i = 0; i < ArraySize; i++)
+            {
+                Array[i].Color = SortingBar.StandardColor;
+            }
         }
     }
 }
