@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:algs="using:SortingVisualizer.Models.Algorithms"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SortingVisualizer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -13,20 +14,20 @@
         Name="Root">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
-    
+
     <Window.Styles>
         <Style Selector="Button.algorithm-select">
-            <Setter Property="Background" Value="ForestGreen"/>
+            <Setter Property="Background" Value="ForestGreen" />
             <Style Selector="^:pointerover ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen"/>
+                <Setter Property="Background" Value="ForestGreen" />
             </Style>
             <Style Selector="^:pressed ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen"/>
+                <Setter Property="Background" Value="ForestGreen" />
             </Style>
             <Style Selector="^:disabled ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen"/>
+                <Setter Property="Background" Value="ForestGreen" />
             </Style>
         </Style>
     </Window.Styles>
@@ -50,7 +51,13 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="m:SortingBar">
                             <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                       Height="{Binding Value}" Margin="1"/>
+                                       Height="{Binding Value}" Margin="1">
+                                <Rectangle.Transitions>
+                                    <Transitions>
+                                        <BrushTransition Property="Fill" Duration="0:0:0.1"/>
+                                    </Transitions>
+                                </Rectangle.Transitions>
+                            </Rectangle>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -58,10 +65,10 @@
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
                     <Grid>
-                        <Button Content=">" HorizontalAlignment="Left"/>
-                        <TextBlock Text="Заголовок" HorizontalAlignment="Center"/>
+                        <Button Content=">" HorizontalAlignment="Left" />
+                        <TextBlock Text="Заголовок" HorizontalAlignment="Center" />
                     </Grid>
-                    <TextBlock Text="Исходный код" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Исходный код" HorizontalAlignment="Center" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>
@@ -69,33 +76,38 @@
         <Grid ColumnDefinitions="Auto, Auto, *" Grid.Row="1">
             <StackPanel Grid.Column="0" Orientation="Vertical">
                 <UniformGrid Rows="2" Columns="3">
-                    <Button Content="{Binding SortingViewModel.StartStopButtonText}" Command="{Binding SortingViewModel.StartStopSortingCommand}"/>
-                    <Button Content="Шаг"/>
-                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShuffleArrayCommand}"/>
-                    <Button Content="В обратном" Command="{Binding SortingViewModel.SetReversedArrayCommand}"/>
-                    <Button Content="Воронка" Command="{Binding SortingViewModel.SetCraterArrayCommand}"/>
-                    <Button Content="Пирамида" Command="{Binding SortingViewModel.SetPyramidArrayCommand}"/>
+                    <Button Content="{Binding SortingViewModel.StartStopButtonText}"
+                            Command="{Binding SortingViewModel.StartStopSortingCommand}" />
+                    <Button Content="Шаг" />
+                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShuffleArrayCommand}" />
+                    <Button Content="В обратном" Command="{Binding SortingViewModel.SetReversedArrayCommand}" />
+                    <Button Content="Воронка" Command="{Binding SortingViewModel.SetCraterArrayCommand}" />
+                    <Button Content="Пирамида" Command="{Binding SortingViewModel.SetPyramidArrayCommand}" />
                 </UniformGrid>
             </StackPanel>
             <ScrollViewer Grid.Column="1">
                 <ItemsControl ItemsSource="{Binding SortingViewModel.SortAlgorithms}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="algs:SortAlgorithmBase">
-                            <Button Content="{Binding Name}" Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.SelectAlgorithmCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" Classes.algorithm-select="{Binding IsSelected}"/>
+                            <Button Content="{Binding Name}"
+                                    Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.SelectAlgorithmCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}" Classes.algorithm-select="{Binding IsSelected}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
             <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Количество элементов"/>
-                    <Slider Value="{Binding SortingViewModel.ArraySize}" Minimum="2" Maximum="1000" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
-                    <NumericUpDown Value="{Binding SortingViewModel.ArraySize}" Minimum="2" Maximum="1000" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
+                    <TextBlock Text="Количество элементов" />
+                    <Slider Value="{Binding SortingViewModel.ArraySize}" Minimum="2" Maximum="1000"
+                            IsEnabled="{Binding SortingViewModel.IsSortAvailable}" />
+                    <NumericUpDown Value="{Binding SortingViewModel.ArraySize}" Minimum="2" Maximum="1000"
+                                   IsEnabled="{Binding SortingViewModel.IsSortAvailable}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Задержка"/>
-                    <Slider Value="{Binding SortingViewModel.Delay}" Minimum="1" Maximum="3000"/>
-                    <NumericUpDown Value="{Binding SortingViewModel.Delay}" Minimum="1" Maximum="3000"/>
+                    <TextBlock Text="Задержка" />
+                    <Slider Value="{Binding SortingViewModel.Delay}" Minimum="1" Maximum="3000" />
+                    <NumericUpDown Value="{Binding SortingViewModel.Delay}" Minimum="1" Maximum="3000" />
                 </StackPanel>
             </StackPanel>
         </Grid>
