@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using SortingVisualizer.ViewModels;
 
@@ -10,24 +11,22 @@ public partial class BubbleSort : SortAlgorithmBase
 
     public override async Task Sort(SortingViewModel vm)
     {
-        for (int i = 0; i < vm.Array.Count; i++)
+        for (int i = 0; i < vm.ArraySize - 1; i++)
         {
-            bool replaced = false;
-            for (int j = i; j < vm.Array.Count; j++)
+            bool swapped = false;
+
+            for (int j = 0; j < vm.ArraySize - i - 1; j++)
             {
-                if (vm.Array[i].Value > vm.Array[j].Value)
+                if (vm.Array[j].Value > vm.Array[j + 1].Value)
                 {
-                    (vm.Array[i].Value, vm.Array[j].Value) = (vm.Array[j].Value, vm.Array[i].Value);
-                    replaced = true;
                     await Task.Delay(vm.Delay);
+
+                    (vm.Array[j].Value, vm.Array[j+1].Value) = (vm.Array[j+1].Value, vm.Array[j].Value);
+                    swapped = true;
                 }
                 await Task.Delay(vm.Delay);
             }
-
-            if (!replaced)
-            {
-                return;
-            }
+            if (!swapped) break;
         }
     }
 }
