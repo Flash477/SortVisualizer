@@ -18,12 +18,15 @@
     
     <Window.Styles>
         <Style Selector="Button.algorithm-select">
-            <Setter Property="Background" Value="ForestGreen"></Setter>
+            <Setter Property="Background" Value="ForestGreen"/>
             <Style Selector="^:pointerover ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen"></Setter>
+                <Setter Property="Background" Value="ForestGreen"/>
             </Style>
             <Style Selector="^:pressed ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen"></Setter>
+                <Setter Property="Background" Value="ForestGreen"/>
+            </Style>
+            <Style Selector="^:disabled ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="ForestGreen"/>
             </Style>
         </Style>
     </Window.Styles>
@@ -66,12 +69,12 @@
         <Grid ColumnDefinitions="Auto, Auto, *" Grid.Row="1">
             <StackPanel Grid.Column="0" Orientation="Vertical">
                 <UniformGrid Rows="2" Columns="3">
-                    <Button Content="Запуск" Command="{Binding SortingViewModel.StartSortingCommand}"/>
+                    <Button Content="{Binding SortingViewModel.StartStopButtonText}" Command="{Binding SortingViewModel.StartStopSortingCommand}"/>
                     <Button Content="Шаг"/>
-                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShakeArrayCommand}" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
-                    <Button Content="Отсортировать"/>
-                    <Button Content="В обратном"/>
-                    <Button Content="Пирамида"/>
+                    <Button Content="Случайный" Command="{Binding SortingViewModel.ShakeArrayCommand}"/>
+                    <Button Content="В обратном" Command="{Binding SortingViewModel.SetReversedArrayCommand}"/>
+                    <Button Content="Воронка" Command="{Binding SortingViewModel.SetCraterArrayCommand}"/>
+                    <Button Content="Пирамида" Command="{Binding SortingViewModel.SetPyramidArrayCommand}"/>
                 </UniformGrid>
             </StackPanel>
             <ScrollViewer Grid.Column="1">
@@ -85,12 +88,12 @@
             </ScrollViewer>
             <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Количество элементов" />
-                    <Slider Value="20" Minimum="2" Maximum="1000" />
-                    <NumericUpDown Value="20" Minimum="2" Maximum="1000" />
+                    <TextBlock Text="Количество элементов"/>
+                    <Slider Value="{Binding SortingViewModel.ArraySize}" Minimum="2" Maximum="1000" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
+                    <NumericUpDown Value="{Binding SortingViewModel.ArraySize}" Minimum="2" Maximum="1000" IsEnabled="{Binding SortingViewModel.IsSortAvailable}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Задержка" />
+                    <TextBlock Text="Задержка"/>
                     <Slider Value="{Binding SortingViewModel.Delay}" Minimum="1" Maximum="3000"/>
                     <NumericUpDown Value="{Binding SortingViewModel.Delay}" Minimum="1" Maximum="3000"/>
                 </StackPanel>
