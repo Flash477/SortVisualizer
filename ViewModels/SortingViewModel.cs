@@ -9,7 +9,7 @@ using SortingVisualizer.Models.Algorithms;
 
 namespace SortingVisualizer.ViewModels;
 
-public partial class SortingViewModel : ObservableObject
+public partial class SortingViewModel : ObservableObject, ISortingContext
 {
     public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new BubbleSort()];
     private readonly Random _random = new();

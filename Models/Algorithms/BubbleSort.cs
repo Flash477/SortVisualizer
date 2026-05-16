@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SortingVisualizer.ViewModels;
 
@@ -7,41 +8,41 @@ public class BubbleSort : SortAlgorithmBase
 {
     public override string Name => "Пузырьковая";
 
-    public override async Task Sort(SortingViewModel vm)
+    public override async Task Sort(ISortingContext context)
     {
-        for (int i = 0; i < vm.ArraySize - 1; i++)
+        for (int i = 0; i < context.Array.Count - 1; i++)
         {
             bool swapped = false;
 
-            for (int j = 0; j < vm.ArraySize - i - 1; j++)
+            for (int j = 0; j < context.Array.Count - i - 1; j++)
             {
-                vm.Array[j].Color = SortingBar.CompareColor;
-                vm.Array[j + 1].Color = SortingBar.CompareColor;
+                context.Array[j].Color = SortingBar.CompareColor;
+                context.Array[j + 1].Color = SortingBar.CompareColor;
 
-                if (vm.Array[j].Value > vm.Array[j + 1].Value)
+                if (context.Array[j].Value > context.Array[j + 1].Value)
                 {
-                    vm.Array[j].Color = SortingBar.ReplaceColor;
-                    vm.Array[j + 1].Color = SortingBar.ReplaceColor;
+                    context.Array[j].Color = SortingBar.ReplaceColor;
+                    context.Array[j + 1].Color = SortingBar.ReplaceColor;
 
-                    await Task.Delay(vm.Delay);
+                    await Task.Delay(context.Delay);
 
-                    (vm.Array[j].Value, vm.Array[j+1].Value) = (vm.Array[j+1].Value, vm.Array[j].Value);
+                    (context.Array[j].Value, context.Array[j+1].Value) = (context.Array[j+1].Value, context.Array[j].Value);
                     swapped = true;
                 }
 
-                await Task.Delay(vm.Delay);
+                await Task.Delay(context.Delay);
 
-                vm.Array[j].Color = SortingBar.StandardColor;
-                vm.Array[j+1].Color = SortingBar.StandardColor;
+                context.Array[j].Color = SortingBar.StandardColor;
+                context.Array[j+1].Color = SortingBar.StandardColor;
             }
 
-            vm.Array[vm.ArraySize - i - 1].Color = SortingBar.SortedColor;
+            context.Array[context.Array.Count - i - 1].Color = SortingBar.SortedColor;
 
             if (!swapped)
             {
-                for (int j = 0; j < vm.ArraySize - i - 1; j++)
+                for (int j = 0; j < context.Array.Count - i - 1; j++)
                 {
-                    vm.Array[j].Color = SortingBar.SortedColor;
+                    context.Array[j].Color = SortingBar.SortedColor;
                 }
                 break;
             }
