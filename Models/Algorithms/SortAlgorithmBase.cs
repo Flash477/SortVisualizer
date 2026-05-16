@@ -7,6 +7,12 @@ namespace SortingVisualizer.Models.Algorithms;
 public abstract partial class SortAlgorithmBase : ObservableObject
 { 
     public abstract string Name { get; }
+    public abstract string Description { get; }
+    public abstract string BestCaseComplexity { get; }
+    public abstract string AverageCaseComplexity { get; }
+    public abstract string WorstCaseComplexity { get; }
+    public abstract string SpaceComplexity { get; }
+    
     [ObservableProperty] private bool _isSelected = false;
 
     public abstract Task Sort(ISortingContext context);

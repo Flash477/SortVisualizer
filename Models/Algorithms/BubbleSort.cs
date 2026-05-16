@@ -1,12 +1,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SortingVisualizer.ViewModels;
 
 namespace SortingVisualizer.Models.Algorithms;
 
 public class BubbleSort : SortAlgorithmBase
 {
-    public override string Name => "Пузырьковая";
+    public override string Name => "Пузырьковая сортировка";
+    public override string Description => "Сравнивает пары соседних элементов, поднимая самые большие к концу массива.";
+    public override string BestCaseComplexity => "O(n)";
+    public override string AverageCaseComplexity => "O(n²)";
+    public override string WorstCaseComplexity => "O(n²)";
+    public override string SpaceComplexity => "O(1)";
 
     public override async Task Sort(ISortingContext context)
     {

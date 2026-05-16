@@ -8,6 +8,8 @@
         xmlns:conv="using:SortingVisualizer.Converters"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        MinHeight="600"
+        MinWidth="800"
         x:Class="SortingVisualizer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -32,59 +34,81 @@
             </Style>
         </Style>
     </Window.Styles>
-    
+
     <Window.Resources>
-        <conv:BarHeightConverter x:Key="BarHeightConverter"/>
-        <conv:DelayConverter x:Key="DelayConverter"/>
+        <conv:BarHeightConverter x:Key="BarHeightConverter" />
+        <conv:DelayConverter x:Key="DelayConverter" />
     </Window.Resources>
 
     <Grid RowDefinitions="*, 0.3*">
         <Grid ColumnDefinitions="0.8*, 0.2*" Grid.Row="0">
             <Grid ColumnDefinitions="0.25*, 0.75*" Grid.Column="0">
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Имя сортировки"></TextBlock>
                     <TextBlock Text="Операций: "></TextBlock>
                     <TextBlock Text="Перестановок: "></TextBlock>
                     <TextBlock Text="Сравнений: "></TextBlock>
                     <TextBlock Text="Время: "></TextBlock>
                 </StackPanel>
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding SortingViewModel.Array}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="m:SortingBar">
-                            <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1"
-                                       RenderTransformOrigin="50%, 100%">
-                                <Rectangle.Transitions>
-                                    <Transitions>
-                                        <BrushTransition Property="Fill">
-                                            <BrushTransition.Duration>
-                                                <MultiBinding Converter="{StaticResource DelayConverter}">
-                                                    <Binding Path="DataContext.SortingViewModel.Delay" ElementName="Root"/> 
+                <Grid Grid.Column="1" RowDefinitions="Auto, *">
+                    <Grid Grid.Row="0" RowDefinitions="*, Auto, Auto">
+                        <TextBlock Text="{Binding SortingViewModel.SelectedAlgorithm.Name}"
+                                   HorizontalAlignment="Center" Grid.Row="0"/>
+                        <TextBlock Text="{Binding SortingViewModel.SelectedAlgorithm.Description}" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1"/>
+                        <TextBlock HorizontalAlignment="Center" Grid.Row="2">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Время: {0} (худшее); {1} (среднее); {2} (лучшее) Память: {3}">
+                                    <Binding Path="SortingViewModel.SelectedAlgorithm.WorstCaseComplexity"/>
+                                    <Binding Path="SortingViewModel.SelectedAlgorithm.AverageCaseComplexity"/>
+                                    <Binding Path="SortingViewModel.SelectedAlgorithm.BestCaseComplexity"/>
+                                    <Binding Path="SortingViewModel.SelectedAlgorithm.SpaceComplexity"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </Grid>
+
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding SortingViewModel.Array}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="m:SortingBar">
+                                <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Stretch" Margin="1"
+                                           RenderTransformOrigin="50%, 100%">
+                                    <Rectangle.Transitions>
+                                        <Transitions>
+                                            <BrushTransition Property="Fill">
+                                                <BrushTransition.Duration>
+                                                    <MultiBinding Converter="{StaticResource DelayConverter}">
+                                                        <Binding Path="DataContext.SortingViewModel.Delay"
+                                                                 ElementName="Root" />
+                                                    </MultiBinding>
+                                                </BrushTransition.Duration>
+                                            </BrushTransition>
+
+                                        </Transitions>
+                                    </Rectangle.Transitions>
+
+                                    <Rectangle.RenderTransform>
+                                        <ScaleTransform>
+                                            <ScaleTransform.ScaleY>
+                                                <MultiBinding Converter="{StaticResource BarHeightConverter}">
+                                                    <Binding Path="Value" />
+                                                    <Binding Path="DataContext.SortingViewModel.ArraySize"
+                                                             ElementName="Root">
+                                                    </Binding>
                                                 </MultiBinding>
-                                            </BrushTransition.Duration>
-                                        </BrushTransition>
-                                            
-                                    </Transitions>
-                                </Rectangle.Transitions>
-                                
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform>
-                                        <ScaleTransform.ScaleY>
-                                            <MultiBinding Converter="{StaticResource BarHeightConverter}">
-                                                <Binding Path="Value"/>
-                                                <Binding Path="DataContext.SortingViewModel.ArraySize" ElementName="Root"></Binding>
-                                            </MultiBinding>
-                                        </ScaleTransform.ScaleY>
-                                    </ScaleTransform>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                            </ScaleTransform.ScaleY>
+                                        </ScaleTransform>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
             </Grid>
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
