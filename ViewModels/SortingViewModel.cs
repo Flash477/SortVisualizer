@@ -16,9 +16,11 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     
     [ObservableProperty] private ObservableCollection<SortingBar> _array;
     [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm;
+    [ObservableProperty] private string _startStopButtonText = "Старт";
     [ObservableProperty] private int _arraySize = 20;
     [ObservableProperty] private int _delay = 10;
-    [ObservableProperty] private string _startStopButtonText = "Старт";
+    [ObservableProperty] private int _swaps = 0;
+    [ObservableProperty] private int _compares = 0;
     
     [NotifyCanExecuteChangedFor(nameof(StartStopSortingCommand))]
     [NotifyCanExecuteChangedFor(nameof(ShuffleArrayCommand))]
@@ -157,6 +159,8 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     private async Task StartStopSorting()
     {
         IsSortAvailable = false;
+        Compares = 0;
+        Swaps = 0;
         await SelectedAlgorithm!.Sort(this);
         IsSortAvailable = true;
     }
@@ -179,5 +183,15 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
                 Array[i].Color = SortingBar.StandardColor;
             }
         }
+    }
+
+    public void IncrementSwaps()
+    {
+        Swaps++;
+    }
+
+    public void IncrementCompares()
+    {
+        Compares++;
     }
 }

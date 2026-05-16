@@ -6,4 +6,7 @@ public interface ISortingContext
 {
     public ObservableCollection<SortingBar> Array { get; }
     public int Delay { get; }
+
+    public void IncrementSwaps();
+    public void IncrementCompares();
 }

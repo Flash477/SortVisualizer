@@ -8,9 +8,7 @@ public class ShakerSort : SortAlgorithmBase
 
     public override string Description =>
         "Проходит массив в обе стороны, двигая наименьшие элементы в начало, а наибольшие в конец";
-    public override string BestCaseComplexity => "O(n)";
-    public override string AverageCaseComplexity => "O(n²)";
-    public override string WorstCaseComplexity => "O(n²)";
+    public override string TimeComplexity => "O(n²)";
     public override string SpaceComplexity => "O(1)";
     
     public override async Task Sort(ISortingContext context)
