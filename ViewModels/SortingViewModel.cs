@@ -13,12 +13,11 @@ namespace SortingVisualizer.ViewModels;
 
 public partial class SortingViewModel : ObservableObject, ISortingContext
 {
-    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort()];
+    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort(), new BogoSort()];
     public CancellationToken SortingCts
     {
         get => _sortingCts.Token;
     }
-    private readonly Random _random = new();
     private Stopwatch _timer = new Stopwatch();
     private CancellationTokenSource? _sortingCts;
 
@@ -151,16 +150,7 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
     private void ShuffleArray()
     {
-        ObservableCollection<SortingBar> shuffledArray = new ObservableCollection<SortingBar>(Array);
-        
-        for (int i = 0; i < shuffledArray.Count; i++)
-        {
-            int j = _random.Next(shuffledArray.Count);
-            (shuffledArray[i].Value, shuffledArray[j].Value) = (shuffledArray[j].Value, shuffledArray[i].Value);
-            shuffledArray[i].Color = SortingBar.StandardColor;
-        }
-
-        Array = shuffledArray;
+        SortAlgorithmBase.ShuffleArray(this);
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]
