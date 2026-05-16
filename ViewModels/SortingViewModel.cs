@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -13,8 +14,13 @@ namespace SortingVisualizer.ViewModels;
 public partial class SortingViewModel : ObservableObject, ISortingContext
 {
     public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort()];
+    public CancellationToken SortingCts
+    {
+        get => _sortingCts.Token;
+    }
     private readonly Random _random = new();
     private Stopwatch _timer = new Stopwatch();
+    private CancellationTokenSource? _sortingCts;
 
     
     [ObservableProperty] private ObservableCollection<SortingBar> _array;
@@ -151,21 +157,29 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
         {
             int j = _random.Next(shuffledArray.Count);
             (shuffledArray[i].Value, shuffledArray[j].Value) = (shuffledArray[j].Value, shuffledArray[i].Value);
-            
             shuffledArray[i].Color = SortingBar.StandardColor;
         }
 
         Array = shuffledArray;
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task StartStopSorting()
     {
+        if (!IsSortAvailable)
+        {
+            _sortingCts?.Cancel();
+            return;
+        }
+        
+        SortAlgorithmBase.PaintArraySection(this, SortingBar.StandardColor,0, ArraySize-1);
+        
         IsSortAvailable = false;
         Compares = 0;
         Swaps = 0;
         _timer.Reset();
         _timer.Start();
+        _sortingCts = new CancellationTokenSource();
         
         _ = Task.Run(async () =>
         {
@@ -174,12 +188,22 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
                 ElapsedTime = _timer.Elapsed.ToString("hh\\:mm\\:ss\\.fff");
                 await Task.Delay(50);
             }  
-        });
-        
-        await SelectedAlgorithm!.Sort(this);
-        _timer.Stop();
-        ElapsedTime = _timer.Elapsed.ToString("hh\\:mm\\:ss\\.fff");
-        IsSortAvailable = true;
+        }, _sortingCts.Token);
+
+        try
+        {
+            await SelectedAlgorithm!.Sort(this);
+        }
+        catch (OperationCanceledException _)
+        {
+
+        }
+        finally
+        {
+            _timer.Stop();
+            ElapsedTime = _timer.Elapsed.ToString("hh\\:mm\\:ss\\.fff");
+            IsSortAvailable = true;
+        }
     }
 
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
@@ -195,10 +219,7 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
             SelectedAlgorithm = sortAlgorithm;
             SelectedAlgorithm.IsSelected = true;
 
-            for (int i = 0; i < ArraySize; i++)
-            {
-                Array[i].Color = SortingBar.StandardColor;
-            }
+            SortAlgorithmBase.PaintArraySection(this, SortingBar.StandardColor,0, ArraySize-1);
         }
     }
 

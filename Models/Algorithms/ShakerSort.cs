@@ -32,14 +32,14 @@ public class ShakerSort : SortAlgorithmBase
                 context.Array[i].Color = SortingBar.StandardColor;
                 context.Array[i + 1].Color = SortingBar.StandardColor;
 
-                await Task.Delay(context.Delay); 
+                await Task.Delay(context.Delay, context.SortingCts); 
             }
             
             context.Array[right].Color = SortingBar.SortedColor;
             
             if (!swapped)
             {
-                PaintArraySection(context, left, right);
+                PaintArraySection(context, SortingBar.SortedColor, left, right);
                 break;
             }
             
@@ -57,14 +57,14 @@ public class ShakerSort : SortAlgorithmBase
                 context.Array[i].Color = SortingBar.StandardColor;
                 context.Array[i - 1].Color = SortingBar.StandardColor;
 
-                await Task.Delay(context.Delay); 
+                await Task.Delay(context.Delay, context.SortingCts); 
             }
             
             context.Array[left].Color = SortingBar.SortedColor;
             
             if (!swapped)
             {
-                PaintArraySection(context, left, right);
+                PaintArraySection(context, SortingBar.SortedColor, left, right);
                 break;
             }
             

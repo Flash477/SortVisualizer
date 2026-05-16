@@ -26,14 +26,14 @@ public class BubbleSort : SortAlgorithmBase
                 context.Array[j].Color = SortingBar.StandardColor;
                 context.Array[j + 1].Color = SortingBar.StandardColor;
 
-                await Task.Delay(context.Delay); 
+                await Task.Delay(context.Delay, context.SortingCts); 
             }
 
             context.Array[context.Array.Count - i - 1].Color = SortingBar.SortedColor;
 
             if (!swapped)
             {
-                PaintArraySection(context, 0, context.Array.Count - i - 1);
+                PaintArraySection(context, SortingBar.SortedColor, 0, context.Array.Count - i - 1);
                 break;
             }
         }
