@@ -11,7 +11,7 @@ public class DelayConverter : IMultiValueConverter
     {
         if (values.Count >= 1 && values[0] is int delay)
         {
-            return new TimeSpan(0, 0, 0, 0, delay/2);
+            return new TimeSpan(0, 0, 0, 0, (int) (delay*0.8));
         }
 
         return new TimeSpan(0);
