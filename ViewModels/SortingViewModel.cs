@@ -11,7 +11,7 @@ namespace SortingVisualizer.ViewModels;
 
 public partial class SortingViewModel : ObservableObject, ISortingContext
 {
-    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new BubbleSort()];
+    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort()];
     private readonly Random _random = new();
     
     [ObservableProperty] private ObservableCollection<SortingBar> _array;

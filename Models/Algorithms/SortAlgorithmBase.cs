@@ -30,4 +30,12 @@ public abstract partial class SortAlgorithmBase : ObservableObject
         
         return context.Array[a].CompareTo(context.Array[b]);
     }
+
+    protected void PaintArraySection(ISortingContext context, int from, int to)
+    {
+        for (int i = from; i <= to; i++)
+        {
+            context.Array[i].Color = SortingBar.SortedColor;
+        }
+    }
 }

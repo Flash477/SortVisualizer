@@ -32,10 +32,7 @@ public class BubbleSort : SortAlgorithmBase
 
             if (!swapped)
             {
-                for (int j = 0; j < context.Array.Count - i - 1; j++)
-                {
-                    context.Array[j].Color = SortingBar.SortedColor;
-                }
+                PaintArraySection(context, 0, context.Array.Count - i - 1);
                 break;
             }
         }
