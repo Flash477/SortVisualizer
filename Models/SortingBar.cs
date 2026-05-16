@@ -1,9 +1,10 @@
+using System;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SortingVisualizer.Models;
 
-public partial class SortingBar : ObservableObject
+public partial class SortingBar : ObservableObject, IComparable<SortingBar>
 {
     public static readonly IBrush StandardColor = Brushes.Aquamarine;
     public static readonly IBrush SortedColor = Brushes.LightGreen;
@@ -17,5 +18,10 @@ public partial class SortingBar : ObservableObject
     {
         Value = value;
         Color = StandardColor;
+    }
+
+    public int CompareTo(SortingBar? other)
+    {
+        return other is null ? 1 : Value.CompareTo(other.Value);
     }
 }

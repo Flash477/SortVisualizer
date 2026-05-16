@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SortingVisualizer.Models;
 
 public interface ISortingContext
 {
-    public IList<SortingBar> Array { get; }
+    public ObservableCollection<SortingBar> Array { get; }
     public int Delay { get; }
 }

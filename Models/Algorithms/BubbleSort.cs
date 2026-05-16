@@ -16,24 +16,16 @@ public class BubbleSort : SortAlgorithmBase
 
             for (int j = 0; j < context.Array.Count - i - 1; j++)
             {
-                context.Array[j].Color = SortingBar.CompareColor;
-                context.Array[j + 1].Color = SortingBar.CompareColor;
-
-                if (context.Array[j].Value > context.Array[j + 1].Value)
+                if (await CompareAsync(context, j, j + 1) > 0)
                 {
-                    context.Array[j].Color = SortingBar.ReplaceColor;
-                    context.Array[j + 1].Color = SortingBar.ReplaceColor;
-
-                    await Task.Delay(context.Delay);
-
-                    (context.Array[j].Value, context.Array[j+1].Value) = (context.Array[j+1].Value, context.Array[j].Value);
+                    await SwapAsync(context, j, j + 1);
                     swapped = true;
                 }
-
-                await Task.Delay(context.Delay);
-
+                
                 context.Array[j].Color = SortingBar.StandardColor;
-                context.Array[j+1].Color = SortingBar.StandardColor;
+                context.Array[j + 1].Color = SortingBar.StandardColor;
+
+                await Task.Delay(context.Delay); 
             }
 
             context.Array[context.Array.Count - i - 1].Color = SortingBar.SortedColor;
