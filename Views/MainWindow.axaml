@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:algs="using:SortingVisualizer.Models.Algorithms"
         xmlns:conv="using:SortingVisualizer.Converters"
-        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         MinHeight="600"
         MinWidth="800"
@@ -40,102 +39,92 @@
         <conv:DelayConverter x:Key="DelayConverter" />
     </Window.Resources>
 
-    <Grid RowDefinitions="*, 0.2*">
-        <Grid ColumnDefinitions="0.8*, 0.2*" Grid.Row="0">
-            <Grid ColumnDefinitions="0.25*, 0.75*" Grid.Column="0">
-                <StackPanel Grid.Column="0">
-                    <TextBlock>
+    <Grid RowDefinitions="*, Auto">
+        <Grid ColumnDefinitions="0.15*, 0.7*, 0.15*" Grid.Column="0">
+            <StackPanel Grid.Column="0">
+                <TextBlock TextWrapping="Wrap">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="Сравнений: {0}">
+                            <Binding Path="SortingViewModel.Compares" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="Перестановок: {0}">
+                            <Binding Path="SortingViewModel.Swaps" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="Время визуализации: {0}">
+                            <Binding Path="SortingViewModel.ElapsedTime" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+            <Grid Grid.Column="1" RowDefinitions="Auto, *">
+                <Grid Grid.Row="0" RowDefinitions="*, Auto, Auto">
+                    <TextBlock Text="{Binding SortingViewModel.SelectedAlgorithm.Name}"
+                               HorizontalAlignment="Center" Grid.Row="0" />
+                    <TextBlock Text="{Binding SortingViewModel.SelectedAlgorithm.Description}" TextWrapping="Wrap"
+                               HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1" />
+                    <TextBlock HorizontalAlignment="Center" Grid.Row="2">
                         <TextBlock.Text>
-                            <MultiBinding StringFormat="Сравнений: {0}">
-                                <Binding Path="SortingViewModel.Compares" />
+                            <MultiBinding
+                                StringFormat="Время: {0} Память: {1}">
+                                <Binding Path="SortingViewModel.SelectedAlgorithm.TimeComplexity" />
+                                <Binding Path="SortingViewModel.SelectedAlgorithm.SpaceComplexity" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="Перестановок: {0}">
-                                <Binding Path="SortingViewModel.Swaps" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat="Время визуализации: {0}">
-                                <Binding Path="SortingViewModel.ElapsedTime" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-                <Grid Grid.Column="1" RowDefinitions="Auto, *">
-                    <Grid Grid.Row="0" RowDefinitions="*, Auto, Auto">
-                        <TextBlock Text="{Binding SortingViewModel.SelectedAlgorithm.Name}"
-                                   HorizontalAlignment="Center" Grid.Row="0" />
-                        <TextBlock Text="{Binding SortingViewModel.SelectedAlgorithm.Description}" TextWrapping="Wrap"
-                                   HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1" />
-                        <TextBlock HorizontalAlignment="Center" Grid.Row="2">
-                            <TextBlock.Text>
-                                <MultiBinding
-                                    StringFormat="Время: {0} Память: {1}">
-                                    <Binding Path="SortingViewModel.SelectedAlgorithm.TimeComplexity" />
-                                    <Binding Path="SortingViewModel.SelectedAlgorithm.SpaceComplexity" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </Grid>
-
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding SortingViewModel.Array}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Rows="1" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="m:SortingBar">
-                                <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch"
-                                           VerticalAlignment="Stretch" Margin="1"
-                                           RenderTransformOrigin="50%, 100%">
-                                    <Rectangle.Transitions>
-                                        <Transitions>
-                                            <BrushTransition Property="Fill">
-                                                <BrushTransition.Duration>
-                                                    <MultiBinding Converter="{StaticResource DelayConverter}">
-                                                        <Binding Path="DataContext.SortingViewModel.Delay"
-                                                                 ElementName="Root" />
-                                                    </MultiBinding>
-                                                </BrushTransition.Duration>
-                                            </BrushTransition>
-
-                                        </Transitions>
-                                    </Rectangle.Transitions>
-
-                                    <Rectangle.RenderTransform>
-                                        <ScaleTransform>
-                                            <ScaleTransform.ScaleY>
-                                                <MultiBinding Converter="{StaticResource BarHeightConverter}">
-                                                    <Binding Path="Value" />
-                                                    <Binding Path="DataContext.SortingViewModel.ArraySize"
-                                                             ElementName="Root">
-                                                    </Binding>
-                                                </MultiBinding>
-                                            </ScaleTransform.ScaleY>
-                                        </ScaleTransform>
-                                    </Rectangle.RenderTransform>
-                                </Rectangle>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
                 </Grid>
+
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding SortingViewModel.Array}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="m:SortingBar">
+                            <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch" Margin="1"
+                                       RenderTransformOrigin="50%, 100%">
+                                <Rectangle.Transitions>
+                                    <Transitions>
+                                        <BrushTransition Property="Fill">
+                                            <BrushTransition.Duration>
+                                                <MultiBinding Converter="{StaticResource DelayConverter}">
+                                                    <Binding Path="DataContext.SortingViewModel.Delay"
+                                                             ElementName="Root" />
+                                                </MultiBinding>
+                                            </BrushTransition.Duration>
+                                        </BrushTransition>
+
+                                    </Transitions>
+                                </Rectangle.Transitions>
+
+                                <Rectangle.RenderTransform>
+                                    <ScaleTransform>
+                                        <ScaleTransform.ScaleY>
+                                            <MultiBinding Converter="{StaticResource BarHeightConverter}">
+                                                <Binding Path="Value" />
+                                                <Binding Path="DataContext.SortingViewModel.ArraySize"
+                                                         ElementName="Root">
+                                                </Binding>
+                                            </MultiBinding>
+                                        </ScaleTransform.ScaleY>
+                                    </ScaleTransform>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
-            <ScrollViewer Grid.Column="1">
-                <StackPanel>
-                    <Grid>
-                        <Button Content=">" HorizontalAlignment="Left" />
-                        <TextBlock Text="Заголовок" HorizontalAlignment="Center" />
-                    </Grid>
-                    <TextBlock Text="Исходный код" HorizontalAlignment="Center" />
-                </StackPanel>
-            </ScrollViewer>
         </Grid>
+
 
         <Grid ColumnDefinitions="Auto, Auto, *" Grid.Row="1">
             <StackPanel Grid.Column="0" Orientation="Vertical">
