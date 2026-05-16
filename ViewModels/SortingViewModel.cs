@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -13,9 +14,12 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
 {
     public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort()];
     private readonly Random _random = new();
+    private Stopwatch _timer = new Stopwatch();
+
     
     [ObservableProperty] private ObservableCollection<SortingBar> _array;
     [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm;
+    [ObservableProperty] private string _elapsedTime = "00:00:00.000";
     [ObservableProperty] private string _startStopButtonText = "Старт";
     [ObservableProperty] private int _arraySize = 20;
     [ObservableProperty] private int _delay = 10;
@@ -34,7 +38,6 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     {
         Array = GenerateSortedArray();
         ShuffleArray();
-        
         SelectAlgorithm(SortAlgorithms[0]);
     }
 
@@ -161,7 +164,21 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
         IsSortAvailable = false;
         Compares = 0;
         Swaps = 0;
+        _timer.Reset();
+        _timer.Start();
+        
+        _ = Task.Run(async () =>
+        {
+            while (!IsSortAvailable)
+            {
+                ElapsedTime = _timer.Elapsed.ToString("hh\\:mm\\:ss\\.fff");
+                await Task.Delay(50);
+            }  
+        });
+        
         await SelectedAlgorithm!.Sort(this);
+        _timer.Stop();
+        ElapsedTime = _timer.Elapsed.ToString("hh\\:mm\\:ss\\.fff");
         IsSortAvailable = true;
     }
 
