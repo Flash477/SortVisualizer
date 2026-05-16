@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:algs="using:SortingVisualizer.Models.Algorithms"
+        xmlns:conv="using:SortingVisualizer.Converters"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SortingVisualizer.Views.MainWindow"
@@ -31,6 +32,10 @@
             </Style>
         </Style>
     </Window.Styles>
+    
+    <Window.Resources>
+        <conv:BarHeightConverter x:Key="BarHeightConverter"/>
+    </Window.Resources>
 
     <Grid RowDefinitions="*, 0.3*">
         <Grid ColumnDefinitions="0.8*, 0.2*" Grid.Row="0">
@@ -50,13 +55,24 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="m:SortingBar">
-                            <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                       Height="{Binding Value}" Margin="1">
+                            <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1"
+                                       RenderTransformOrigin="50%, 100%">
                                 <Rectangle.Transitions>
                                     <Transitions>
                                         <BrushTransition Property="Fill" Duration="0:0:0.1"/>
                                     </Transitions>
                                 </Rectangle.Transitions>
+                                
+                                <Rectangle.RenderTransform>
+                                    <ScaleTransform>
+                                        <ScaleTransform.ScaleY>
+                                            <MultiBinding Converter="{StaticResource BarHeightConverter}">
+                                                <Binding Path="Value"/>
+                                                <Binding Path="DataContext.SortingViewModel.ArraySize" ElementName="Root"></Binding>
+                                            </MultiBinding>
+                                        </ScaleTransform.ScaleY>
+                                    </ScaleTransform>
+                                </Rectangle.RenderTransform>
                             </Rectangle>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
