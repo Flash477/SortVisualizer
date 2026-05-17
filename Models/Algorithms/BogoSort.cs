@@ -8,8 +8,7 @@ public class BogoSort : SortAlgorithmBase
     public override string Name => "Болотная сортировка";
 
     public override string Description =>
-        "Случайно перетасовывает массив до тех пор, пока элементы не выстроятся по порядку. " +
-        "Самый быстрый алгоритм сортировки, если Вам, конечно, повезёт";
+        "Случайно перетасовывает массив до тех пор, пока элементы не выстроятся по порядку";
 
     public override string TimeComplexity => "O(n ✕ n!)";
     public override string SpaceComplexity => "O(1)";

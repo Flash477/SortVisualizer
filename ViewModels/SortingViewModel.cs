@@ -13,15 +13,18 @@ namespace SortingVisualizer.ViewModels;
 
 public partial class SortingViewModel : ObservableObject, ISortingContext
 {
-    public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort(), new QuickSort(), new BogoSort()];
+    public List<SortAlgorithmBase> SortAlgorithms { get; } =
+        [new BubbleSort(), new ShakerSort(), new QuickSort(), new OddEventSort(), new BogoSort()];
+
     public CancellationToken SortingCts
     {
         get => _sortingCts?.Token ?? CancellationToken.None;
     }
+
     private Stopwatch _timer = new Stopwatch();
     private CancellationTokenSource? _sortingCts;
 
-    
+
     [ObservableProperty] private ObservableCollection<SortingBar> _array;
     [ObservableProperty] private SortAlgorithmBase? _selectedAlgorithm;
     [ObservableProperty] private string _elapsedTime = "00:00:00.000";
@@ -30,15 +33,16 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     [ObservableProperty] private int _delay = 10;
     [ObservableProperty] private int _swaps = 0;
     [ObservableProperty] private int _compares = 0;
-    
+
     [NotifyCanExecuteChangedFor(nameof(StartStopSortingCommand))]
     [NotifyCanExecuteChangedFor(nameof(ShuffleArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SetReversedArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SetCraterArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SetPyramidArrayCommand))]
     [NotifyCanExecuteChangedFor(nameof(SelectAlgorithmCommand))]
-    [ObservableProperty] private bool _isSortAvailable = true;
-    
+    [ObservableProperty]
+    private bool _isSortAvailable = true;
+
     public SortingViewModel()
     {
         Array = GenerateSortedArray();
@@ -50,7 +54,7 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     {
         StartStopButtonText = value ? "Старт" : "Стоп";
     }
-    
+
     partial void OnArraySizeChanged(int value)
     {
         Array = GenerateSortedArray();
@@ -62,26 +66,26 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     {
         Array = GenerateCraterArray();
     }
-    
+
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
     private void SetReversedArray()
     {
         Array = GenerateReversedArray();
     }
-    
+
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
     private void SetPyramidArray()
     {
         Array = GeneratePyramidArray();
     }
-    
+
     private ObservableCollection<SortingBar> GenerateCraterArray()
     {
         /*Лучше заполнять массив через два указателя, вместо использования Insert для коллекции, ибо в таком случае
          приходится проходиться по массиву каждый раз при вставке, n превращается в n^2*/
-        SortingBar[] newArray = new SortingBar[ArraySize]; 
-        
-        int left = 0, right = ArraySize - 1; 
+        SortingBar[] newArray = new SortingBar[ArraySize];
+
+        int left = 0, right = ArraySize - 1;
 
         for (int i = ArraySize; i >= 1; i--)
         {
@@ -92,14 +96,15 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
             }
             else
             {
-                newArray[right] = new SortingBar(i);;
+                newArray[right] = new SortingBar(i);
+                ;
                 right--;
             }
         }
 
         return new ObservableCollection<SortingBar>(newArray);
     }
-    
+
     private ObservableCollection<SortingBar> GeneratePyramidArray()
     {
         //То же, что для GenerateCraterArray()
@@ -115,18 +120,19 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
             }
             else
             {
-                newArray[right] = new SortingBar(i);;
+                newArray[right] = new SortingBar(i);
+                ;
                 right--;
             }
         }
 
         return new ObservableCollection<SortingBar>(newArray);
     }
-    
+
     private ObservableCollection<SortingBar> GenerateReversedArray()
     {
         ObservableCollection<SortingBar> newArray = new ObservableCollection<SortingBar>();
-        
+
         for (int i = ArraySize; i >= 1; i--)
         {
             newArray.Add(new SortingBar(i));
@@ -138,7 +144,7 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     private ObservableCollection<SortingBar> GenerateSortedArray()
     {
         ObservableCollection<SortingBar> newArray = new ObservableCollection<SortingBar>();
-        
+
         for (int i = 1; i <= ArraySize; i++)
         {
             newArray.Add(new SortingBar(i));
@@ -146,7 +152,7 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
 
         return newArray;
     }
-    
+
     [RelayCommand(CanExecute = nameof(IsSortAvailable))]
     private void ShuffleArray()
     {
@@ -161,23 +167,23 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
             _sortingCts?.Cancel();
             return;
         }
-        
-        SortAlgorithmBase.PaintArraySection(this, SortingBar.StandardColor,0, ArraySize-1);
-        
+
+        SortAlgorithmBase.PaintArraySection(this, SortingBar.StandardColor, 0, ArraySize - 1);
+
         IsSortAvailable = false;
         Compares = 0;
         Swaps = 0;
         _timer.Reset();
         _timer.Start();
         _sortingCts = new CancellationTokenSource();
-        
+
         _ = Task.Run(async () =>
         {
             while (!IsSortAvailable)
             {
                 ElapsedTime = _timer.Elapsed.ToString("hh\\:mm\\:ss\\.fff");
                 await Task.Delay(50);
-            }  
+            }
         }, _sortingCts.Token);
 
         try
@@ -186,7 +192,6 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
         }
         catch (OperationCanceledException _)
         {
-
         }
         finally
         {
@@ -205,11 +210,11 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
             {
                 SelectedAlgorithm.IsSelected = false;
             }
-            
+
             SelectedAlgorithm = sortAlgorithm;
             SelectedAlgorithm.IsSelected = true;
 
-            SortAlgorithmBase.PaintArraySection(this, SortingBar.StandardColor,0, ArraySize-1);
+            SortAlgorithmBase.PaintArraySection(this, SortingBar.StandardColor, 0, ArraySize - 1);
         }
     }
 
