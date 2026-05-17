@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SortingVisualizer.ViewModels"
+             xmlns:algs="using:SortingVisualizer.Models.Algorithms"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SortingVisualizer.Views.Controls.ControlPanel"
+             x:DataType="vm:SortingViewModel">
+    
+    <UserControl.Styles>
+        <Style Selector="Button.algorithm-select">
+            <Setter Property="Background" Value="ForestGreen" />
+            <Style Selector="^:pointerover ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="ForestGreen" />
+            </Style>
+            <Style Selector="^:pressed ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="ForestGreen" />
+            </Style>
+            <Style Selector="^:disabled ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="ForestGreen" />
+            </Style>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid ColumnDefinitions="Auto, Auto, *">
+            <StackPanel Grid.Column="0" Orientation="Vertical">
+                <UniformGrid Rows="2" Columns="3">
+                    <Button Content="{Binding StartStopButtonText}"
+                            Command="{Binding StartStopSortingCommand}" />
+                    <Button Content="Случайный" Command="{Binding ShuffleArrayCommand}" />
+                    <Button Content="В обратном" Command="{Binding SetReversedArrayCommand}" />
+                    <Button Content="Воронка" Command="{Binding SetCraterArrayCommand}" />
+                    <Button Content="Пирамида" Command="{Binding SetPyramidArrayCommand}" />
+                </UniformGrid>
+            </StackPanel>
+            <ScrollViewer Grid.Column="1">
+                <ItemsControl ItemsSource="{Binding SortAlgorithms}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="algs:SortAlgorithmBase">
+                            <Button Content="{Binding Name}"
+                                    Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.SelectAlgorithmCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                    CommandParameter="{Binding}" Classes.algorithm-select="{Binding IsSelected}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Количество элементов" />
+                    <Slider Value="{Binding ArraySize}" Minimum="2" Maximum="256"
+                            IsEnabled="{Binding IsSortAvailable}" />
+                    <NumericUpDown Value="{Binding ArraySize}" Minimum="2" Maximum="256"
+                                   IsEnabled="{Binding IsSortAvailable}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Задержка" />
+                    <Slider Value="{Binding Delay}" Minimum="1" Maximum="3000" />
+                    <NumericUpDown Value="{Binding Delay}" Minimum="1" Maximum="3000" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+</UserControl>

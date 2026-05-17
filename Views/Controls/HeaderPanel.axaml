@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SortingVisualizer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SortingVisualizer.Views.Controls.HeaderPanel"
+             x:DataType="vm:SortingViewModel">
+    <Grid RowDefinitions="*, Auto, Auto">
+        <TextBlock Text="{Binding SelectedAlgorithm.Name}"
+                   HorizontalAlignment="Center" Grid.Row="0" />
+        <TextBlock Text="{Binding SelectedAlgorithm.Description}" TextWrapping="Wrap"
+                   HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1" />
+        <TextBlock HorizontalAlignment="Center" Grid.Row="2">
+            <TextBlock.Text>
+                <MultiBinding
+                    StringFormat="Время: {0} Память: {1}">
+                    <Binding Path="SelectedAlgorithm.TimeComplexity" />
+                    <Binding Path="SelectedAlgorithm.SpaceComplexity" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </Grid>
+</UserControl>

@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SortingVisualizer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SortingVisualizer.Views.Controls.StatsPanel"
+             x:DataType="vm:SortingViewModel">
+    <StackPanel>
+        <TextBlock TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Сравнений: {0}">
+                    <Binding Path="Compares"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <TextBlock TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Перестановок: {0}">
+                    <Binding Path="Swaps"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <TextBlock TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="Время визуализации: {0}">
+                    <Binding Path="ElapsedTime"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </StackPanel>
+</UserControl>

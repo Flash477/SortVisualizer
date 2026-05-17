@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:SortingVisualizer.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:SortingVisualizer.Models"
+             xmlns:converters="clr-namespace:SortingVisualizer.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SortingVisualizer.Views.Controls.ArrayVisualizer"
+             x:DataType="vm:SortingViewModel"
+             x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BarHeightConverter x:Key="BarHeightConverter" />
+        <converters:DelayConverter x:Key="DelayConverter" />
+    </UserControl.Resources>
+
+    <ItemsControl ItemsSource="{Binding Array}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Rows="1" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="models:SortingBar">
+                <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch" Margin="0 0 1 0"
+                           RenderTransformOrigin="50%, 100%">
+                    <Rectangle.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Fill">
+                                <BrushTransition.Duration>
+                                    <MultiBinding Converter="{StaticResource DelayConverter}">
+                                        <Binding Path="((vm:SortingViewModel)DataContext).Delay"
+                                                 ElementName="Root" />
+                                    </MultiBinding>
+                                </BrushTransition.Duration>
+                            </BrushTransition>
+                        </Transitions>
+                    </Rectangle.Transitions>
+
+                    <Rectangle.RenderTransform>
+                        <ScaleTransform>
+                            <ScaleTransform.ScaleY>
+                                <MultiBinding Converter="{StaticResource BarHeightConverter}">
+                                    <Binding Path="Value" />
+                                    <Binding ElementName="Root"
+                                             Path="((vm:SortingViewModel)DataContext).ArraySize" />
+                                </MultiBinding>
+                            </ScaleTransform.ScaleY>
+                        </ScaleTransform>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>
