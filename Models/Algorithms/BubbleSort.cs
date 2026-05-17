@@ -1,31 +1,40 @@
 using System.Threading.Tasks;
-using SortingVisualizer.ViewModels;
 
 namespace SortingVisualizer.Models.Algorithms;
 
 public class BubbleSort : SortAlgorithmBase
 {
-    public override string Name => "Пузырьковая";
+    public override string Name => "Пузырьковая сортировка";
+    public override string Description => "Сравнивает пары соседних элементов, поднимая самые большие к концу массива";
+    public override string TimeComplexity => "n²";
+    public override string SpaceComplexity => "1";
 
-    public override async Task Sort(SortingViewModel vm)
+    public override async Task Sort(ISortingContext context)
     {
-        for (int i = 0; i < vm.Array.Count; i++)
+        for (int i = 0; i < context.Array.Count - 1; i++)
         {
-            bool replaced = false;
-            for (int j = i; j < vm.Array.Count; j++)
+            bool swapped = false;
+
+            for (int j = 0; j < context.Array.Count - i - 1; j++)
             {
-                if (vm.Array[i].Value > vm.Array[j].Value)
+                if (await CompareAsync(context, j, j + 1) > 0)
                 {
-                    (vm.Array[i].Value, vm.Array[j].Value) = (vm.Array[j].Value, vm.Array[i].Value);
-                    replaced = true;
-                    await Task.Delay(vm.Delay);
+                    await SwapAsync(context, j, j + 1);
+                    swapped = true;
                 }
-                await Task.Delay(vm.Delay);
+                
+                context.Array[j].Color = SortingBar.StandardColor;
+                context.Array[j + 1].Color = SortingBar.StandardColor;
+
+                await Task.Delay(context.Delay, context.SortingCts); 
             }
 
-            if (!replaced)
+            context.Array[context.Array.Count - i - 1].Color = SortingBar.SortedColor;
+
+            if (!swapped)
             {
-                return;
+                PaintArraySection(context, SortingBar.SortedColor, 0, context.Array.Count - i - 1);
+                break;
             }
         }
     }

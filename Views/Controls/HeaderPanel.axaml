@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SortingVisualizer.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SortingVisualizer.Views.Controls.HeaderPanel"
+             x:DataType="vm:SortingViewModel">
+    <Grid RowDefinitions="Auto, Auto, Auto" Classes="header">
+        <TextBlock Text="{Binding SelectedAlgorithm.Name}" Grid.Row="0" Classes="header-name"/>
+        <TextBlock Text="{Binding SelectedAlgorithm.Description}" Grid.Row="1" Classes="header-description" />
+        <Border Grid.Row="2">
+            <TextBlock>
+                <!--Вот здесь, разумеется, лучше всего делать через Span(ы), но в них текст через привязку никак не вставить-->
+                <Run Text="Время:" Classes="header-complexities-name" />
+                <Run Text="O" Classes="header-complexities-cursive" />
+                <Run Text="(" />
+                <Run Text="{Binding SelectedAlgorithm.TimeComplexity}" Classes="header-complexities-cursive" />
+                <Run Text=")" />
+
+                <Run Text=" Память:" Classes="header-complexities-name" />
+                <Run Text="O" Classes="header-complexities-cursive" />
+                <Run Text="(" />
+                <Run Text="{Binding SelectedAlgorithm.SpaceComplexity}" Classes="header-complexities-cursive" />
+                <Run Text=")" />
+            </TextBlock>
+        </Border>
+    </Grid>
+</UserControl>

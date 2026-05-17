@@ -1,0 +1,85 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20"/>
+    </Design.PreviewWith>
+    
+    <Style Selector="Grid.controls">
+        <Setter Property="Margin" Value="0 0 0 12"/>
+    </Style>
+    
+    <Style Selector="Grid.controls Button">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    
+    <Style Selector="Button#StartButton">
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="Margin" Value="8"/>
+    </Style>
+    
+    <Style Selector="Button.algorithm-select">
+        <Setter Property="Background" Value="MediumSeaGreen"/>
+        
+        <Style Selector="^:pointerover ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+        </Style>
+        
+        <Style Selector="^:pressed ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+        </Style>
+        
+        <Style Selector="^:disabled ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+        </Style>
+    </Style>
+    
+    <Style Selector="Slider.size-slider">
+        <Setter Property="Foreground" Value="MediumSeaGreen"/>
+        
+        <Style Selector="^:pointerover RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+        </Style>
+        
+        <Style Selector="^:pressed RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+        </Style>
+        
+        <Style Selector="^:disabled RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="ForestGreen"/>
+        </Style>
+        
+        <Style Selector="^ Thumb">
+            <Setter Property="Background" Value="MediumSeaGreen"/>
+        </Style>
+        
+        <Style Selector="^:disabled Thumb">
+            <Setter Property="Background" Value="ForestGreen"/>
+        </Style>
+    </Style>
+    
+    <Style Selector="Slider.delay-slider">
+        <Setter Property="Foreground" Value="DeepSkyBlue"/>
+        
+        <Style Selector="^:pointerover RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="DeepSkyBlue"/>
+        </Style>
+        
+        <Style Selector="^:pressed RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="DeepSkyBlue"/>
+        </Style>
+        
+        <Style Selector="^:disabled RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="RoyalBlue"/>
+        </Style>
+        
+        <Style Selector="^ Thumb">
+            <Setter Property="Background" Value="DeepSkyBlue"/>
+        </Style>
+        
+        <Style Selector="^:disabled Thumb">
+            <Setter Property="Background" Value="RoyalBlue"/>
+        </Style>
+    </Style>
+</Styles>
