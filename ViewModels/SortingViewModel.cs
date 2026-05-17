@@ -16,7 +16,7 @@ public partial class SortingViewModel : ObservableObject, ISortingContext
     public List<SortAlgorithmBase> SortAlgorithms { get; } = [new BubbleSort(), new ShakerSort(), new QuickSort(), new BogoSort()];
     public CancellationToken SortingCts
     {
-        get => _sortingCts.Token;
+        get => _sortingCts?.Token ?? CancellationToken.None;
     }
     private Stopwatch _timer = new Stopwatch();
     private CancellationTokenSource? _sortingCts;

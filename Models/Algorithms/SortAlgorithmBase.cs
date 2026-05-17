@@ -54,6 +54,10 @@ public abstract partial class SortAlgorithmBase : ObservableObject
         
         for (int i = 0; i < shuffledArray.Count; i++)
         {
+            if (!context.IsSortAvailable)
+            {
+                context.IncrementSwaps();
+            }
             int j = Random.Next(shuffledArray.Count);
             (shuffledArray[i].Value, shuffledArray[j].Value) = (shuffledArray[j].Value, shuffledArray[i].Value);
             shuffledArray[i].Color = SortingBar.StandardColor;

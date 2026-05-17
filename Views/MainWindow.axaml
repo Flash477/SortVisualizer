@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:algs="using:SortingVisualizer.Models.Algorithms"
         xmlns:conv="using:SortingVisualizer.Converters"
+        xmlns:controls="using:Avalonia.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         MinHeight="600"
         MinWidth="800"
@@ -90,7 +91,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="m:SortingBar">
                             <Rectangle Fill="{Binding Color}" HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch" Margin="1"
+                                       VerticalAlignment="Stretch" Margin="0 0 1 0"
                                        RenderTransformOrigin="50%, 100%">
                                 <Rectangle.Transitions>
                                     <Transitions>
