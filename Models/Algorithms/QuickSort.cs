@@ -43,7 +43,7 @@ public class QuickSort : SortAlgorithmBase
         while (true)
         {
             context.IncrementCompares();
-            while (await CompareAsync(context, l, pivotIndex) > 0)
+            while (await CompareAsync(context, l, pivotIndex) < 0)
             {
                 context.Array[l].Color = SortingBar.StandardColor;
                 l++;
@@ -51,7 +51,7 @@ public class QuickSort : SortAlgorithmBase
             context.Array[l].Color = SortingBar.StandardColor;
             
             context.IncrementCompares();
-            while (await CompareAsync(context, r, pivotIndex) < 0)
+            while (await CompareAsync(context, r, pivotIndex) > 0)
             {
                 context.Array[r].Color = SortingBar.StandardColor;
                 r--;
