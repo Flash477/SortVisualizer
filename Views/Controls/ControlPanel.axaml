@@ -7,57 +7,67 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SortingVisualizer.Views.Controls.ControlPanel"
              x:DataType="vm:SortingViewModel">
-    
-    <UserControl.Styles>
-        <Style Selector="Button.algorithm-select">
-            <Setter Property="Background" Value="ForestGreen" />
-            <Style Selector="^:pointerover ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen" />
-            </Style>
-            <Style Selector="^:pressed ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen" />
-            </Style>
-            <Style Selector="^:disabled ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="ForestGreen" />
-            </Style>
-        </Style>
-    </UserControl.Styles>
-    
-    <Grid ColumnDefinitions="Auto, Auto, *">
-            <StackPanel Grid.Column="0" Orientation="Vertical">
-                <UniformGrid Rows="2" Columns="3">
-                    <Button Content="{Binding StartStopButtonText}"
-                            Command="{Binding StartStopSortingCommand}" />
-                    <Button Content="Случайный" Command="{Binding ShuffleArrayCommand}" />
-                    <Button Content="В обратном" Command="{Binding SetReversedArrayCommand}" />
-                    <Button Content="Воронка" Command="{Binding SetCraterArrayCommand}" />
-                    <Button Content="Пирамида" Command="{Binding SetPyramidArrayCommand}" />
-                </UniformGrid>
-            </StackPanel>
-            <ScrollViewer Grid.Column="1">
-                <ItemsControl ItemsSource="{Binding SortAlgorithms}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="algs:SortAlgorithmBase">
-                            <Button Content="{Binding Name}"
-                                    Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.SelectAlgorithmCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                    CommandParameter="{Binding}" Classes.algorithm-select="{Binding IsSelected}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Количество элементов" />
-                    <Slider Value="{Binding ArraySize}" Minimum="2" Maximum="256"
-                            IsEnabled="{Binding IsSortAvailable}" />
-                    <NumericUpDown Value="{Binding ArraySize}" Minimum="2" Maximum="256"
-                                   IsEnabled="{Binding IsSortAvailable}" />
+
+    <Grid ColumnDefinitions="Auto, Auto, *" Classes="controls">
+        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="12">
+            <Button Name="StartButton" Content="{Binding StartStopButtonText}"
+                    Command="{Binding StartStopSortingCommand}" />
+            <UniformGrid Rows="2" Columns="2">
+                <Button Content="Случайный" Command="{Binding ShuffleArrayCommand}" />
+                <Button Content="В обратном" Command="{Binding SetReversedArrayCommand}" />
+                <Button Content="Воронка" Command="{Binding SetCraterArrayCommand}" />
+                <Button Content="Пирамида" Command="{Binding SetPyramidArrayCommand}" />
+            </UniformGrid>
+        </StackPanel>
+
+        <ScrollViewer Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding SortAlgorithms}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="algs:SortAlgorithmBase">
+                        <Button Content="{Binding Name}"
+                                Command="{Binding ((vm:MainWindowViewModel)DataContext).SortingViewModel.SelectAlgorithmCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding}"
+                                Classes.algorithm-select="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Grid Grid.Column="2" Margin="12" RowDefinitions="Auto, Auto">
+            <StackPanel HorizontalAlignment="Right" Margin="12">
+                <StackPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Количество элементов" HorizontalAlignment="Right" />
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Value="{Binding ArraySize}"
+                                Minimum="2" Maximum="256"
+                                Width="150"
+                                IsEnabled="{Binding IsSortAvailable}"
+                                Classes="size-slider">
+
+                        </Slider>
+                        <NumericUpDown Value="{Binding ArraySize}"
+                                       Minimum="2" Maximum="256"
+                                       Width="60"
+                                       ShowButtonSpinner="False"
+                                       IsEnabled="{Binding IsSortAvailable}"/>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock Text="Задержка" />
-                    <Slider Value="{Binding Delay}" Minimum="1" Maximum="3000" />
-                    <NumericUpDown Value="{Binding Delay}" Minimum="1" Maximum="3000" />
+
+                <StackPanel HorizontalAlignment="Right">
+                    <TextBlock Text="Задержка (мс)" HorizontalAlignment="Right" />
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Value="{Binding Delay}"
+                                Minimum="1" Maximum="3000"
+                                Width="150"
+                                Classes="delay-slider">
+                        </Slider>
+                        <NumericUpDown Value="{Binding Delay}"
+                                       Minimum="1" Maximum="3000"
+                                       Width="60"
+                                       ShowButtonSpinner="False" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>
+    </Grid>
 </UserControl>

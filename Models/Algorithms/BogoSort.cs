@@ -10,8 +10,8 @@ public class BogoSort : SortAlgorithmBase
     public override string Description =>
         "Случайно перетасовывает массив до тех пор, пока элементы не выстроятся по порядку";
 
-    public override string TimeComplexity => "O(n ✕ n!)";
-    public override string SpaceComplexity => "O(1)";
+    public override string TimeComplexity => "n ✕ n!";
+    public override string SpaceComplexity => "1";
 
     public override async Task Sort(ISortingContext context)
     {

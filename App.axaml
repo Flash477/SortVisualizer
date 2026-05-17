@@ -10,6 +10,16 @@
     </Application.DataTemplates>
   
     <Application.Styles>
-        <FluentTheme />
+        <FluentTheme/>
+        <StyleInclude Source="avares://SortingVisualizer/Views/Styles/ControlStyle.axaml"/>
+        <StyleInclude Source="avares://SortingVisualizer/Views/Styles/HeaderStyle.axaml"/>
+        <StyleInclude Source="avares://SortingVisualizer/Views/Styles/StatsStyle.axaml"/>
+        <StyleInclude Source="avares://SortingVisualizer/Views/Styles/ArrayVisualizerStyle.axaml"/>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="avares://SortingVisualizer/Assets/Fonts/#Roboto Slab"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="avares://SortingVisualizer/Assets/Fonts/#Roboto Slab"/>
+        </Style>
     </Application.Styles>
 </Application>

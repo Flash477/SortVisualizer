@@ -9,8 +9,8 @@ public class QuickSort : SortAlgorithmBase
     public override string Description =>
         "Делит массив на две части, больше и меньше опорного элемента, а затем рекурсивно сортирует каждую из них";
 
-    public override string TimeComplexity => "O(n log₂(n))";
-    public override string SpaceComplexity => "O(n)";
+    public override string TimeComplexity => "n log₂(n)";
+    public override string SpaceComplexity => "n";
 
     public override async Task Sort(ISortingContext context)
     {

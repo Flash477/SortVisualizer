@@ -1,0 +1,34 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20"/>
+    </Design.PreviewWith>
+    <Style Selector="Grid.header TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="TextBlock.header-name">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="36"/>
+        <Setter Property="Margin" Value="12"/>
+    </Style>
+    <Style Selector=".header Border">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Margin" Value="0 0 0 32"/>
+    </Style>
+    <Style Selector="TextBlock.header-description">
+        <Setter Property="Margin" Value="0 0 0 12"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style Selector="Run.header-complexities-name">
+        <Setter Property="Foreground" Value="DarkSlateBlue"/>
+    </Style>
+
+    <Style Selector="Run.header-complexities-cursive">
+        <Setter Property="FontStyle" Value="Italic"/>
+    </Style>
+</Styles>

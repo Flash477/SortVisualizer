@@ -8,8 +8,8 @@ public class OddEventSort : SortAlgorithmBase
     public override string Description =>
         "Упорядочивает элементы попарно сравнивая соседние элементы на четных и нечетных позициях внутри 1 цикла\n" +
         "Рекомендуется большой размер массива и короткая задержка для лучшей визуализации";
-    public override string TimeComplexity => "O(n²)";
-    public override string SpaceComplexity => "O(1)";
+    public override string TimeComplexity => "n²";
+    public override string SpaceComplexity => "1";
     public override async Task Sort(ISortingContext context)
     {
         bool sorted;

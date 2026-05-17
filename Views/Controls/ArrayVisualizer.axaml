@@ -15,7 +15,7 @@
         <converters:DelayConverter x:Key="DelayConverter" />
     </UserControl.Resources>
 
-    <ItemsControl ItemsSource="{Binding Array}">
+    <ItemsControl ItemsSource="{Binding Array}" Classes="array-visualizer">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <UniformGrid Rows="1" />

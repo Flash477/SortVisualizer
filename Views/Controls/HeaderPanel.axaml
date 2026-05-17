@@ -6,19 +6,24 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SortingVisualizer.Views.Controls.HeaderPanel"
              x:DataType="vm:SortingViewModel">
-    <Grid RowDefinitions="*, Auto, Auto">
-        <TextBlock Text="{Binding SelectedAlgorithm.Name}"
-                   HorizontalAlignment="Center" Grid.Row="0" />
-        <TextBlock Text="{Binding SelectedAlgorithm.Description}" TextWrapping="Wrap"
-                   HorizontalAlignment="Center" TextAlignment="Center" Grid.Row="1" />
-        <TextBlock HorizontalAlignment="Center" Grid.Row="2">
-            <TextBlock.Text>
-                <MultiBinding
-                    StringFormat="Время: {0} Память: {1}">
-                    <Binding Path="SelectedAlgorithm.TimeComplexity" />
-                    <Binding Path="SelectedAlgorithm.SpaceComplexity" />
-                </MultiBinding>
-            </TextBlock.Text>
-        </TextBlock>
+    <Grid RowDefinitions="Auto, Auto, Auto" Classes="header">
+        <TextBlock Text="{Binding SelectedAlgorithm.Name}" Grid.Row="0" Classes="header-name"/>
+        <TextBlock Text="{Binding SelectedAlgorithm.Description}" Grid.Row="1" Classes="header-description" />
+        <Border Grid.Row="2">
+            <TextBlock>
+                <!--Вот здесь, разумеется, лучше всего делать через Span(ы), но в них текст через привязку никак не вставить-->
+                <Run Text="Время:" Classes="header-complexities-name" />
+                <Run Text="O" Classes="header-complexities-cursive" />
+                <Run Text="(" />
+                <Run Text="{Binding SelectedAlgorithm.TimeComplexity}" Classes="header-complexities-cursive" />
+                <Run Text=")" />
+
+                <Run Text=" Память:" Classes="header-complexities-name" />
+                <Run Text="O" Classes="header-complexities-cursive" />
+                <Run Text="(" />
+                <Run Text="{Binding SelectedAlgorithm.SpaceComplexity}" Classes="header-complexities-cursive" />
+                <Run Text=")" />
+            </TextBlock>
+        </Border>
     </Grid>
 </UserControl>
