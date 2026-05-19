@@ -8,15 +8,24 @@
              x:Class="SortingVisualizer.Views.Controls.ControlPanel"
              x:DataType="vm:SortingViewModel">
 
-    <Grid ColumnDefinitions="Auto, Auto, *" Classes="controls">
-        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="12">
-            <Button Name="StartButton" Content="{Binding StartStopButtonText}"
+    <Grid ColumnDefinitions="Auto, Auto, *" 
+          Classes="controls">
+        <StackPanel Grid.Column="0" 
+                    Orientation="Vertical" 
+                    Margin="12">
+            <Button Name="StartButton" 
+                    Content="{Binding 
+                    StartStopButtonText}"
                     Command="{Binding StartStopSortingCommand}" />
             <UniformGrid Rows="2" Columns="2">
-                <Button Content="Случайный" Command="{Binding ShuffleArrayCommand}" />
-                <Button Content="В обратном" Command="{Binding SetReversedArrayCommand}" />
-                <Button Content="Воронка" Command="{Binding SetCraterArrayCommand}" />
-                <Button Content="Пирамида" Command="{Binding SetPyramidArrayCommand}" />
+                <Button Content="Случайный" 
+                        Command="{Binding ShuffleArrayCommand}" />
+                <Button Content="В обратном" 
+                        Command="{Binding SetReversedArrayCommand}" />
+                <Button Content="Воронка" 
+                        Command="{Binding SetCraterArrayCommand}" />
+                <Button Content="Пирамида" 
+                        Command="{Binding SetPyramidArrayCommand}" />
             </UniformGrid>
         </StackPanel>
 
@@ -49,7 +58,7 @@
                                        Minimum="2" Maximum="256"
                                        Width="60"
                                        ShowButtonSpinner="False"
-                                       IsEnabled="{Binding IsSortAvailable}"/>
+                                       IsEnabled="{Binding IsSortAvailable}" />
                     </StackPanel>
                 </StackPanel>
 
