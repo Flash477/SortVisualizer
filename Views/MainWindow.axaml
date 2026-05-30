@@ -18,7 +18,7 @@
         </Design.DataContext>
     
     <Grid RowDefinitions="*, Auto">
-        <Grid ColumnDefinitions="0.2*, 0.65*, 0.15*" Grid.Column="0">
+        <Grid ColumnDefinitions="0.2*, 0.6*, 0.2*" Grid.Column="0">
             <controls1:StatsPanel Grid.Column="0" DataContext="{Binding SortingViewModel}"/>
             <Grid Grid.Column="1" RowDefinitions="Auto, *">
                 <controls1:HeaderPanel Grid.Row="0" DataContext="{Binding SortingViewModel}"/>

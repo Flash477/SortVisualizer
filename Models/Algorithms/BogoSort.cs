@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace SortingVisualizer.Models.Algorithms;
